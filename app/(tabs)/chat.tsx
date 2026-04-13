@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
 import {
   PSChat,
   PSChatProps,
-  PSThreads,
-  PSMessages,
   PSKeyboard,
+  PSMessages,
+  PSThreads,
   SoftInputMode,
 } from '@communi/chat-react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
+import * as React from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // --- PI SCALE CONFIG ---
 const APP_ID = '2e0gjsomg3n';
@@ -134,7 +134,7 @@ export default function ChatScreen() {
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <PSChat props={chatProps}>
-        {/* {targetThread ? (
+        {targetThread ? (
           <PSMessages
             targetThreadId={targetThread.threadId}
             targetMessageId={targetThread.messageId}
@@ -142,14 +142,8 @@ export default function ChatScreen() {
           />
         ) : (
           <PSThreads onThreadPress={onThreadPress} />
-        )} */}
+        )}
 
-
-        <PSMessages
-          targetThreadId={"41315818758984"}
-        // targetMessageId={98}
-        // onBackPress={onMessagesBackPress}
-        />
       </PSChat>
     </View>
   );

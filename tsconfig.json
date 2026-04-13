@@ -6,6 +6,12 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@communi/chat-ui-react-native": [
+        "./Library/chat-ui-react-native/src/index.ts"
+      ],
+      "@communi/chat-ui-react-native/*": [
+        "./Library/chat-ui-react-native/src/*"
       ]
     }
   },

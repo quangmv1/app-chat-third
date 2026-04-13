@@ -2,6 +2,9 @@
   "name": "app-chat-third",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "workspaces": [
+    "Library/*"
+  ],
   "scripts": {
     "start": "expo start",
     "reset-project": "node scripts/reset-project.js",
@@ -13,6 +16,7 @@
   },
   "dependencies": {
     "@communi/chat-react-native": "^3.1.13",
+    "@communi/chat-ui-react-native": "*",
     "@communi/keyboard-area-react-native": "^2.0.3",
     "@communi/mqtt-client-interface-typescript": "^2.0.1",
     "@communi/mqtt-client-react-native": "^2.0.5",
@@ -72,6 +76,7 @@
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
+    "babel-plugin-module-resolver": "^5.0.3",
     "jest": "~29.7.0",
     "jest-expo": "~52.0.3",
     "react-test-renderer": "18.3.1",
