@@ -1446,8 +1446,11 @@ export const PSMqttClientProvider = ({
 
   React.useEffect(() => {
     if (chatApiClient) {
-      setJWT(chatApiClient.getJWT());
+      const token = chatApiClient.getJWT();
+      console.log('DEBUG MQTT: chatApiClient ready, fetch JWT =', token ? 'EXISTS' : 'EMPTY');
+      setJWT(token);
     } else {
+      console.log('DEBUG MQTT: chatApiClient is undefined');
       setJWT(undefined);
     }
   }, [chatApiClient]);
@@ -1455,14 +1458,17 @@ export const PSMqttClientProvider = ({
   React.useEffect(() => {
     if (chatApiClient?.userId && jwt) {
       const init = async () => {
+        console.log('DEBUG MQTT: Initializing MQTT with userId =', chatApiClient.userId, 'appId =', appId);
         try {
           const mqtt = await PSMqttClient.newInstance(
             appId,
             chatApiClient.userId,
             jwt,
           );
+          console.log('DEBUG MQTT: MqttClient instance created successfully');
           if (isMounted.current) {
             setMqttClient(mqtt);
+            console.log('DEBUG MQTT: Calling mqtt.connect()...');
             await mqtt.connect();
           }
         } catch (error) {

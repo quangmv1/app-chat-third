@@ -1,8 +1,8 @@
 //#conditional
 
-import {IMQTTClient} from '@communi/mqtt-client-interface-typescript';
-import {PSBusEvent, PSEventBus, createMQTTClient, psLogger} from '../utils';
-import {PSMqttEvent} from './types';
+import { IMQTTClient } from '@communi/mqtt-client-interface-typescript';
+import { PSBusEvent, PSEventBus, createMQTTClient, psLogger } from '../utils';
+import { PSMqttEvent } from './types';
 
 export class PSMqttClient {
   private static instance?: PSMqttClient;
@@ -20,14 +20,19 @@ export class PSMqttClient {
   ): Promise<void> {
     this.userId = userId;
 
-    var host = '';
 
-    //#if PRODUCTION
-    host = `${appId}.mqtt.piscale.com`;
-    //#else
-    host = `${appId}.staging-mqtt.piscale.com`;
-    //#endif
 
+
+    // //#if PRODUCTION
+    // host = `${appId}.mqtt.piscale.com`;
+    // //#else
+    // host = `${appId}.staging-mqtt.piscale.com`;
+    // //#endif
+
+    let host = `${appId}.mqtt.piscale.com`;
+    // host = `${appId}.staging-mqtt.piscale.com`; // Dùng cho môi trường staging nếu cần
+
+    console.log(`DEBUG MQTT: Creating client - Host: ${host}, ClientID: piscale-react-native-${userId}-...`);
     const mqtt = await createMQTTClient({
       clientId: `piscale-react-native-${userId}-${new Date().getTime()}`,
       host: host,

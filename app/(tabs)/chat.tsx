@@ -123,7 +123,8 @@ export default function ChatScreen() {
         baseUrl: ENDPOINT,
       },
       userId: USER_ID,
-      deviceId: 'device_id',
+      deviceId: 'quang_dev_' + Date.now(),
+      // deviceId: 'deivice_id',
       areaInsets: {
         topInset: top,
         bottomInset: bottom,

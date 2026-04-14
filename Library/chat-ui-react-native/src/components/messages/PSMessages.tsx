@@ -496,7 +496,7 @@ export const PSMessages = React.memo(
   }: PSMessagesProps) => {
     const pathDB = usePSPartitioningPathContext();
 
-    console.log('trolll ???')
+    console.log('trolll')
 
     return (
       <Fragment key={pathDB}>

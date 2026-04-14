@@ -6,25 +6,30 @@ const libraryRoot = path.resolve(projectRoot, 'Library/chat-ui-react-native');
 
 const config = getDefaultConfig(projectRoot);
 
-// 1. Watch the local library folder
+// 1. Theo dõi thư mục mã nguồn Local và Root
 config.watchFolders = [projectRoot, libraryRoot];
 
-// 2. Resolve modules to the root node_modules to avoid duplicates
-config.resolver.extraNodeModules = {
-  'react': path.resolve(projectRoot, 'node_modules/react'),
-  'react-native': path.resolve(projectRoot, 'node_modules/react-native'),
-  'react-native-reanimated': path.resolve(projectRoot, 'node_modules/react-native-reanimated'),
-  'react-native-gesture-handler': path.resolve(projectRoot, 'node_modules/react-native-gesture-handler'),
-  'react-native-safe-area-context': path.resolve(projectRoot, 'node_modules/react-native-safe-area-context'),
-  'react-native-svg': path.resolve(projectRoot, 'node_modules/react-native-svg'),
-  '@react-native-community/netinfo': path.resolve(projectRoot, 'node_modules/@react-native-community/netinfo'),
-  'expo': path.resolve(projectRoot, 'node_modules/expo'),
-};
+// 2. Kỹ thuật Proxy để tự động ép mọi dependency về Root node_modules
+// Cách này giúp giải quyết triệt để lỗi "Unable to resolve axios" hoặc "Duplicate React/Realm"
+config.resolver.extraNodeModules = new Proxy(
+  {
+    // Bẻ lái thư viện UI sang thẳng thư mục mã nguồn Local
+    '@communi/chat-ui-react-native': libraryRoot,
+  },
+  {
+    get: (target, name) => {
+      if (name in target) {
+        return target[name];
+      }
+      // Mọi package khác đều được tìm kiếm tại Root node_modules
+      return path.join(projectRoot, 'node_modules', name);
+    },
+  }
+);
 
-// 3. Ensure the resolver can find the library's source files
+// 3. Đảm bảo Metro ưu tiên tìm kiếm ở Root
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, 'node_modules'),
-  path.resolve(libraryRoot, 'node_modules'),
 ];
 
 module.exports = config;
