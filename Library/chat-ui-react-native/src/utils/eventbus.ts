@@ -15,6 +15,7 @@ export enum PSBusEvent {
   USER_ADD_OPTION_VOTE = 'USER_ADD_OPTION_VOTE',
   LEAVE_THREAD = 'LEAVE_THREAD',
   DELETE_THREAD_BOTH = 'DELETE_THREAD_BOTH',
+  SWITCH_USER = 'SWITCH_USER',
 }
 
 type PSEventBusCallback = (data?: any) => void;

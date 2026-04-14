@@ -1,6 +1,6 @@
-import React, {PropsWithChildren} from 'react';
-import {Keyboard, LayoutAnimation, Platform} from 'react-native';
-import {usePSAreaInsetsContext} from '../../../context';
+import React, { PropsWithChildren } from 'react';
+import { Keyboard, LayoutAnimation, Platform } from 'react-native';
+import { usePSAreaInsetsContext } from '../../../context';
 import {
   addKeyboardListener,
   psLogger,
@@ -31,7 +31,7 @@ export const PSMessageKeyboardAreaProvider = ({
     return false;
   }, []);
 
-  const {bottomInset} = usePSAreaInsetsContext();
+  const { bottomInset } = usePSAreaInsetsContext();
 
   React.useEffect(() => {
     if (isAndroid10orBelow) {
@@ -65,7 +65,7 @@ export const PSMessageKeyboardAreaProvider = ({
         }),
         e => {
           const height = e.endCoordinates.height;
-          const {duration, easing} = e;
+          const { duration, easing } = e;
           if (duration && easing) {
             LayoutAnimation.configureNext({
               duration: duration > 200 ? duration : 200,
@@ -94,7 +94,7 @@ export const PSMessageKeyboardAreaProvider = ({
         }),
         e => {
           const height = e.endCoordinates.height;
-          const {duration, easing} = e;
+          const { duration, easing } = e;
           if (duration && easing) {
             LayoutAnimation.configureNext({
               duration: duration > 200 ? duration : 200,
@@ -121,7 +121,7 @@ export const PSMessageKeyboardAreaProvider = ({
           default: 'keyboardWillHide',
         }),
         e => {
-          const {duration, easing} = e;
+          const { duration, easing } = e;
           if (duration && easing) {
             LayoutAnimation.configureNext({
               duration: duration > 10 ? duration : 10,

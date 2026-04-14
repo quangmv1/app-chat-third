@@ -5,6 +5,8 @@ import {
   PSMessages,
   PSThreads,
   SoftInputMode,
+  PSEventBus,
+  PSBusEvent,
 } from '@communi/chat-react-native';
 import axios from 'axios';
 import * as React from 'react';
@@ -15,7 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // --- PI SCALE CONFIG ---
 const APP_ID = '2e0gjsomg3n';
 const API_KEY = '113433f4acfca393fa75941bb4760d4a8d';
-const USER_ID = 'quangmai' // ask BE to create your id
+const DEFAULT_USER_ID = 'quangmai' // ask BE to create your id
 const ENDPOINT = `https://${APP_ID}.api.piscale.com`;
 
 const axiosInstance = axios.create({
@@ -43,6 +45,8 @@ export default function ChatScreen() {
   const { top, bottom } = useSafeAreaInsets();
   const isMounted = useIsMountedRef();
 
+  const [currentUserId, setCurrentUserId] = useState(DEFAULT_USER_ID);
+
   const [targetThread, setTargetThread] = useState<
     | {
       threadId: string;
@@ -51,15 +55,23 @@ export default function ChatScreen() {
     | undefined
   >();
 
-
-  console.log('targetThread', targetThread)
+  // Listen for user switch events from the library
+  useEffect(() => {
+    const subscription = PSEventBus.getInstance().subscribe(
+      PSBusEvent.SWITCH_USER,
+      (newUserId: string) => {
+        if (newUserId && newUserId !== currentUserId) {
+          console.log('DEBUG: Switching user to:', newUserId);
+          setTargetThread(undefined); // Reset view
+          setCurrentUserId(newUserId);
+        }
+      }
+    );
+    return () => subscription.unsubscribe();
+  }, [currentUserId]);
 
   const onThreadPress = useCallback(
     (targetThreadId: string, targetMessageId: number) => {
-      console.log('press check', {
-        targetThreadId,
-        targetMessageId,
-      })
       setTargetThread({
         threadId: targetThreadId,
         messageId: targetMessageId,
@@ -90,9 +102,8 @@ export default function ChatScreen() {
   const fetchToken = useCallback(async (): Promise<string> => {
     try {
       const response = await axiosInstance.post<any, any>(
-        `/user/v1.0/user/${USER_ID}/token`,
+        `/user/v1.0/user/${currentUserId}/token`,
       );
-      // Assuming the structure response.data.data.token as per your example
       const token = response.data?.data?.token ?? response.data?.token;
 
       if (!token || !token.length) {
@@ -101,19 +112,14 @@ export default function ChatScreen() {
       return token;
     } catch (e) {
       console.log('fetchToken error: ', e);
-      // Demo retry logic as provided
-      await new Promise(resolve => {
-        setTimeout(() => {
-          resolve('');
-        }, 1000);
-      });
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       if (isMounted.current) {
         return await fetchToken();
       }
       return '';
     }
-  }, [isMounted]);
+  }, [isMounted, currentUserId]);
 
   const chatProps = useMemo(() => {
     return {
@@ -122,15 +128,14 @@ export default function ChatScreen() {
         fetchToken: fetchToken,
         baseUrl: ENDPOINT,
       },
-      userId: USER_ID,
+      userId: currentUserId,
       deviceId: 'quang_dev_' + Date.now(),
-      // deviceId: 'deivice_id',
       areaInsets: {
         topInset: top,
         bottomInset: bottom,
       },
     } as PSChatProps;
-  }, [top, bottom, fetchToken]);
+  }, [top, bottom, fetchToken, currentUserId]);
 
   return (
     <View style={[styles.container, { paddingTop: top }]}>
