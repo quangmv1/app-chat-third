@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
+import '@react-native-firebase/app'; // Initialize Firebase
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 

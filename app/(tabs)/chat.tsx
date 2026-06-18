@@ -1,12 +1,12 @@
 import {
+  PSBusEvent,
   PSChat,
   PSChatProps,
+  PSEventBus,
   PSKeyboard,
   PSMessages,
   PSThreads,
   SoftInputMode,
-  PSEventBus,
-  PSBusEvent,
 } from '@communi/chat-react-native';
 import axios from 'axios';
 import * as React from 'react';
@@ -15,9 +15,11 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // --- PI SCALE CONFIG ---
-const APP_ID = '2e0gjsomg3n';
-const API_KEY = '113433f4acfca393fa75941bb4760d4a8d';
-const DEFAULT_USER_ID = 'quangmai' // ask BE to create your id
+const APP_ID = '2e0v57o9zeg';
+const API_KEY = '14cbd109c217f0a3665ad158bc943991ae';
+// const APP_ID = '2e0gjsomg3n';
+// const API_KEY = '113433f4acfca393fa75941bb4760d4a8d';
+const DEFAULT_USER_ID = '6a1e9844461e70ffcf80199a' // ask BE to create your id
 const ENDPOINT = `https://${APP_ID}.api.piscale.com`;
 
 const axiosInstance = axios.create({
@@ -62,7 +64,7 @@ export default function ChatScreen() {
       (newUserId: string) => {
         if (newUserId && newUserId !== currentUserId) {
           console.log('DEBUG: Switching user to:', newUserId);
-          setTargetThread(undefined); // Reset view
+          // setTargetThread(undefined); // Reset view
           setCurrentUserId(newUserId);
         }
       }
