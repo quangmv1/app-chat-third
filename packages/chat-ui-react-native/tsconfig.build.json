@@ -1,0 +1,40 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noStrictGenericChecks": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "outDir": "dist",
+    "noEmit": false,
+    "noImplicitAny": false,
+    "incremental": true /* Enable incremental compilation */,
+    "noEmitHelpers": true,
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "importHelpers": false,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./@types"],
+    "declaration": true /* Generates corresponding '.d.ts' file. */,
+    "sourceMap": false /* Generates corresponding '.map' file. */,
+    "isolatedModules": false
+  },
+  "include": ["./index.ts", "src/**/*"],
+  "exclude": [
+    "**/node_modules",
+    "**/build",
+    "**/dist",
+    "**/*.md",
+    "example",
+    "src/**/*.test.*",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
+}
